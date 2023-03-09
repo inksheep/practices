@@ -1,331 +1,286 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
+//一、char的题
 #include <stdio.h>
 #include <string.h>
-//一、关机程序
+//
 //int main()
 //{
-//	char ch[20] = { 0 };
-//	while (1)
+//	char a[1000];//char 值的范围为 -128 到 127
+//	int i = 0;
+//	for (i = 0; i < 1000; i++)
 //	{
-//		system("shutdown -s -t 60");//60s后关机
-//		printf("请输入我是超人，否则电脑将会在1min中内关机\n");
-//		scanf("%s", ch);
-//		if (strcmp("我是超人", ch) == 0)
+//		a[i] = -1 - i;//-1 -2 -3 ... -128 127 126 ... 3 2 1 0
+//	}
+//	printf("%d\n", strlen(a));//255 遇到0停止 即128 + 127 的长度
+//	return 0;
+//}
+
+//二、qsort -- 排序库函数 使用
+//void qsort(void* base , size_t num , size_t width , int (*cmp)(const void* e1 , const void* e2));
+//base -- 排序的起始位置  num -- 排序元素的个数  width -- 每个元素的大小 cmp -- 两个元素如何交换 需要自己实现
+#include <stdlib.h>
+//int my_cmp(const void* e1, const void* e2)
+//{
+//	return *(int*)e1 - *(int*)e2;
+//}
+//int main()
+//{
+//	int arr[] = {  9, 8, 7, 6, 5, 4, 3, 2, 1 };
+//	qsort(arr, sizeof(arr) / sizeof(arr[0]), sizeof(arr[0]), my_cmp);
+//	int i = 0;
+//	for (i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	return 0;
+//}
+
+
+//三、自幂数 求0到100000的自幂数
+//例： 一个三位数 = 它的每一位数的三次方之和
+//153 = 1 + 125 + 27
+#include <math.h>
+
+//double my_Pow(int x, int y)
+//{
+//	if (y < 0)
+//		return (1.0 / Pow(x, -y));
+//	else if (y == 0)
+//		return 1;
+//	else
+//		return x * Pow(x, y - 1);
+//}
+//
+//int main()
+//{
+//	int i = 0;
+//	for (i = 0; i <= 100000; i++)
+//	{
+//		//1.求有几位
+//		int n = 1;//位数
+//		int sum = 0;
+//		int tmp = i;//需要i不变 所以用一个变量用它的值
+//		while (tmp /= 10)
 //		{
-//			system("shutdown -a");
-//			break;
+//			n++;
 //		}
+//		//2.求每位数的n次方之和
+//		tmp = i;
+//		while (tmp)
+//		{
+//			sum += pow(tmp % 10, n);//pow(x,y) --- 求x的y次方  <math.h>里的库函数
+//			tmp /= 10;
+//		}
+//		if (sum == i)
+//			printf("%d ", i);
 //	}
-//
 //	return 0;
 //}
 
+//四、喝汽水的问题
+//1瓶汽水1元，2个空瓶可以换一瓶汽水，给20元可以喝多少瓶汽水？
 
 //int main()
 //{
-//	//printf("%d", printf("%d", printf("%d", 43)));//打印43 返回2 打印2 返回1
-//	printf("%d", printf("%d", printf("%d", 654)));//65431
-//	return 0;
-//}
-
-
-//二、递归
-//把输入的数从左到右一位一位的打出来
-
-//void print(int n)
-//{
-//	if (n > 9)//二位数及以上 123  12  1
+//	int money = 0;
+//	int total = 0;//总的汽水数量
+//	int empty = 0;
+//	scanf("%d", &money);//20
+//	total = money;
+//	empty = money;
+//	while (empty >= 2)
 //	{
-//		print(n / 10);
+//		total += empty / 2;
+//		empty = empty / 2 + empty % 2;// 5/2 = 2 余 1 就会有3个空瓶 
 //	}
-//	printf("%d ", n % 10);
-//}
-//
-//int main()
-//{
-//	unsigned int n = 0;
-//	scanf("%d", &n);
-//	print(n);
+//	printf("total = %d\n", total);//39
+//	//有规律 total = money * 2 - 1
 //	return 0;
 //}
 
-//三、模拟实现strlen 
-// 
-//1.用指针-指针的方式
+
+//五、实现一个函数，可以左旋字符串中的k个字符
+//例：ABCD 左旋一个字符 BCDA
+//    ABCD 左旋两个字符 CDAB
+
+//1. 暴力求解法
 #include <assert.h>
 
-//int my_strlen(const char* p)
+//void left_move(char* arr, int k)
 //{
-//	assert(p != NULL);
-//	char* strat = p;
-//	while (*p != '\0')
-//	{
-//		p++;
-//	}
-//	return p - strat;//指针 - 指针 = 元素个数 要同一类型的指针
-//}
-// 
-//2.用变量的
-//int my_strlen(const char* p)
-//{
-//	int count = 0;
-//	while (*p != '\0')
-//	{
-//		p++;
-//		count++;
-//	}
-//	return count;
-//}
-
-//3.不用变量的 用递归的方法
-//int my_strlen(const char* p)
-//{
-//	assert(p);
-//	if (*p != '\0')
-//	{
-//		return 1 + my_strlen(p+1);
-//	}
-//	return 0;
-//}
-//
-//int main()
-//{
-//	char arr[] = "abcdef";//6
-//	int len = my_strlen(arr);
-//	/*char* open = arr;
-//	char* end = &arr[6];
-//	int len = end - open;*/
-//	printf("%d\n", len);
-//	return 0;
-//}
-
-//四、斐波那契数列
-//1 1 2 3 5 8 13 21 34 55 ... (后面的数 = 前面两数之和)
-//求第n个斐波那契数
-//1.用循环的方法
-//(更好一点)
-//int Find(int n)
-//{
-//	int a = 1;
-//	int b = 1;
-//	int c = 1;
-//	while (n > 2)
-//	{
-//		c = a + b;
-//		a = b;
-//		b = c;
-//		n--;
-//	}
-//	return c;
-//}
-
-//2.用递归的方法
-//(用递归会重复计算很多，效率低)
-//int Find(int n)
-//{
-//	if (n <= 2)
-//		return 1;
-//	else
-//		return Find(n - 1) + Find(n - 2);
-//}
-
-//int main()
-//{
-//	//TDD -- 测试驱动开发 ： 先写使用再实现
-//	int n = 0;
-//	scanf("%d", &n);
-//	int ret = Find(n);
-//	printf("%d\n", ret);
-//
-//	return 0;
-//}
-
-
-//五、交换两个变量 不用临时变量
-//(效率不高 可读性差 正常还是使用临时变量来交换)
-//int main()
-//{
-//	int a = 3;
-//	int b = 5;
-//	//加减法
-//	/*a = a + b;
-//	b = a - b;
-//	a = a - b;*/
-//	//异或的方法
-//	a = a ^ b;// a^b 相当于得到了一个密码 这个密码和b异或 得 a 反之即得b
-//	b = a ^ b;
-//	a = a ^ b;
-//	printf("%d %d\n", a, b);
-//	return 0;
-//}
-
-//六、求一个整数存储在内存中的二进制中1的个数
-
-//int main()
-//{
-//	int n = 0;
-//	scanf("%d", &n);
-//	int count = 0;
+//	assert(arr != NULL);
+//	int len = strlen(arr);
 //	int i = 0;
-//	for (i = 0; i < 32; i++)
+//	for (i = 0; i < k; i++)
 //	{
-//		if (1 == ((n>>i)  & 1))
+//		//每一次左旋一个字符
+//		char tmp = *arr;
+//		int j = 0;
+//		for (j = 0; j <len-1 ; j++)
 //		{
-//			count++;
+//			*(arr + j) = *(arr + j + 1);//arr[j] = arr[j + 1];//左移覆盖
 //		}
-//	}
-//	printf("count = %d\n", count);
-//	return 0;
-//}
-
-//（最好）n & (n - 1)
-//例： 1101 & 1100   得 1100
-//     1100 & 1011   得 1000 一次少一个1 有几个1执行几次 最终得0
-//int count_bit_one(int n)
-//{
-//	int count = 0;
-//	int i = 0;
-//	while (n)
-//	{
-//		n = n & (n - 1);
-//		count++;
-//	}
-//	return count;
-//}
-//
-//int main()
-//{
-//	int a = 13;//1101  3个1
-//	scanf("%d", &a);
-//	printf("%d\n", count_bit_one(a));
-//	return 0;
-//}
-
-//七、sizeof()的注意情况
-//int main()
-//{
-//	int i = -1;
-//	if (i > sizeof(i))//sizeof() 运算时会先把旁边的数变无符号数类型
-//		printf(">");
-//	else
-//		printf("<");
-//	return 0;
-//}
-
-//八、求二进制中，两个数 不同二进制位的个数
-//思路：异或 相同为0 不同为1 然后再求1的个数
-//int get_diff_bit(int m, int n)
-//{
-//	int tmp = m ^ n;
-//	int count = 0;
-//	int i = 0;
-//	while (tmp)
-//	{
-//		tmp = tmp & (tmp - 1);
-//		count++;
-//	}
-//	/*for (i = 0; i < 32; i++)
-//	{
-//		if (1 == ((tmp >> i) & 1))
-//		{
-//			count++;
-//		}
-//	}*/
-//	return count;
-//}
-//
-//int main()
-//{
-//	int m = 0;//1100 12
-//	int n = 0;//0011 3
-//	scanf("%d %d", &m, &n);
-//	int ret = get_diff_bit(m, n);
-//	printf("%d\n", ret);
-//	return 0;
-//}
-
-//九、计算一个数的每位之和
-//输入一个数 调用DigitSum(1729) 返回1+7+2+9 和为19
-//1729 9+DS(172)
-//172 9+2+DS(17)
-//int DigitSum(int n)
-//{
-//	if (n > 9)
-//	{
-//		return n % 10 + DigitSum(n / 10);
-//	}
-//	else
-//	{
-//		return n % 10;
+//		*(arr + len - 1) = tmp;//arr[len - 1] = tmp;
 //	}
 //}
-//
 //int main()
 //{
-//	int n = 0;
-//	scanf("%d", &n);
-//	int sum = DigitSum(n);
-//	printf("sum = %d\n", sum);
-//	return 0;
-//}
-
-
-//十、计算n的k次方
-//double Pow(int n, int k)
-//{
-//	if (k == 0)
-//		return 1;
-//	else if (k > 0)
-//		return n * Pow(n, k - 1);
-//	else //k < 0 时
-//		return (1.0 / Pow(n,-k));
-//}
-//
-////double Pow(int n, int k)
-////{
-////	if (k < 0)
-////		return (1.0 / Pow(n, -k));
-////	else if (k == 0)
-////		return 1;
-////	else
-////		return n * Pow(n, k - 1);
-////}
-//
-//
-//int main()
-//{
-//	int n = 0;
+//	char arr[] = "ABCDEF";
 //	int k = 0;
-//	scanf("%d %d", &n, &k);
-//	double ret = Pow(n, k);//因为有负数次方 会有分数 所以用double
-//	printf("%lf\n", ret);
+//	scanf("%d", &k);
+//	left_move(arr, k);
+//	printf("%s\n", arr);
 //	return 0;
 //}
 
-//十一、判断当前机器的字节序是什么
-//大端：低位放到高地址处，高位放到低地址处
-//小端：低位放到低地址处，高位放到高地址处
-//int check_sys()
+//2.三步翻转法
+//思路：要旋转的和不旋转的字符分别逆序
+//      再全部逆序
+//void reverse(char* left,char* right)
 //{
-//	int n = 1;//00 00 00 01 大端：00 00 00 01 小端：01 00 00 00 
-//	char* tmp = (char*)&n;
-//	//返回1 为小端
-//	//返回0 为大端
-//	return *tmp; // 简洁为： return *((char*)&n);
-//	/*if (tmp == 1)
-//		return 1;
-//	else
-//		return 0;*/
+//	assert(left && right);
+//	char tmp = 0;
+//	while (left < right)
+//	{
+//		tmp = *left;
+//		*left = *right;
+//		*right = tmp;
+//		left++;
+//		right--;
+//	}
+//}
+//
+//void left_move(char* arr, int k)
+//{
+//	int len = strlen(arr);
+//	reverse(arr, arr + k - 1);
+//	reverse(arr + k, arr + len - 1);
+//	reverse(arr, arr + len - 1);
 //}
 //
 //int main()
 //{
-//	int ret = check_sys();
-//	if (ret == 1)
-//		printf("是小端存储");
-//	else
-//		printf("是大端存储");
+//	char arr[] = "ABCDEF";
+//	int k = 0;
+//	scanf("%d", &k);
+//	left_move(arr, k);
+//	printf("%s\n", arr);
 //	return 0;
 //}
+
+
+//六、写一个函数，判断一个字符串是否为另一个字符串旋转之后的字符串
+//例： 给s1 = AABCD 和 s2 = BCDAA 返回1
+//     给s1 = abcd  和 s2 = ACBD  返回0
+// 1.穷举法
+//void left_move(char* s1, int k)
+//{
+//	assert(s1 != NULL);
+//	int len = strlen(s1);
+//	int i = 0;
+//	for (i = 0; i < k; i++)
+//	{
+//		char tmp = *s1;
+//		int j = 0;
+//		for (j = 0; j < len-1; j++)
+//		{
+//			s1[j] = s1[j + 1];
+//		}
+//		s1[len - 1] = tmp;
+//	}
+//}
+//
+//int is_left_move(char* s1, char* s2)
+//{
+//	assert(s1 && s2);
+//	int i = 0;
+//	int len = strlen(s1);
+//	for (i = 0; i < len; i++)
+//	{
+//		left_move(s1, 1);//每次移一个 移6次
+//		int ret = strcmp(s1, s2);
+//		if (ret == 0)//有相同的字符串
+//			return 1;
+//	}
+//	return 0;
+//}
+//
+//2.abcdef+abcdef法 后面加上自己 str后面加上一个str
+//strcat(arr1,arr2) 用来加自己不可用，要用strncat(char* Dest,const char* Source,size_t X);
+//用这个方法 记得s1的空间要开大一点
+//int is_left_move(char* s1, char* s2)
+//{
+//	assert(s1 && s2);
+//	int len1 = strlen(s1);
+//	int len2 = strlen(s2);
+//	if (len1 != len2)
+//		return 0;
+//	//1.s1后面加上一个s1
+//	strncat(s1, s1, len1);
+//	//2.判断s1指向的字符串中是否有s2指向的字符串
+//	//strstr(s1,s2) --- 找子串的库函数 有则返回子串地址，无则返回NULL
+//	char* ret = strstr(s1, s2);
+//	if (ret == NULL)
+//		return 0;
+//	else
+//		return 1;
+//}
+//
+//int main()
+//{
+//	char arr1[30] = "abcdef";
+//	char arr2[] = "cdefab";
+//	int ret = is_left_move(arr1, arr2);
+//	if (ret == 1)
+//		printf("YES\n");
+//	else
+//		printf("NO\n");
+//	return 0;
+//}
+
+//七、杨氏矩阵
+//有一个数字矩阵，矩阵的每一行从左到右是递增的，矩阵从上到下是递增的
+//请编写程序在这样的矩阵中查找某个数字是否存在？(需要复杂度小于O(n))
+//矩阵例：1 2 3     1 2 3  思路：找右上角或左下 可排除一行或一列
+//        3 4 5     4 5 6
+//        4 5 6     7 8 9
+//int FindNum(int arr[3][3], int k, int* px, int* py)
+//{
+//	int x = 0;//右上角的下标
+//	int y = *py - 1;
+//	while (x <= *px - 1 && y >= 0)
+//	{
+//		if (arr[x][y] > k)
+//			y--;
+//		else if (arr[x][y] < k)
+//			x++;
+//		else//找到了 arr[x][y] == k
+//		{
+//			*px = x;//返回下标
+//			*py = y;
+//			return 1;
+//		}
+//	}
+//	return 0;
+//}
+//
+//int main()
+//{
+//	int  arr[3][3] = { 1,2,3,4,5,6,7,8,9 };
+//	int k = 0;
+//	int x = 3;//行数
+//	int y = 3;//列数
+//	scanf("%d", &k);
+//	int ret = FindNum(arr, k, &x, &y);//返回型参数 可返回下标
+//	if (ret == 1)
+//	{
+//		printf("找到了\n");
+//		printf("坐标为 x = %d y = %d", x, y);
+//	}
+//	else
+//		printf("找不到\n");
+//	return 0;
+//}
+
 
