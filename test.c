@@ -1,110 +1,58 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 #include <stdio.h>
-#include <string.h>
-//一、关机程序
+
+//一、等级成绩与百分制成绩对换
+//90及以上 --- A ； 80到90 --- B ； 70到80 --- C ；60到70 --- D ； 60以下 --- E
+
 //int main()
 //{
-//	char ch[20] = { 0 };
-//	while (1)
+//	int score = 0;//分数
+//	printf("请输入得分数:>");
+//	scanf("%d", &score);
+//	switch (score / 10)
 //	{
-//		system("shutdown -s -t 60");//60s后关机
-//		printf("请输入我是超人，否则电脑将会在1min中内关机\n");
-//		scanf("%s", ch);
-//		if (strcmp("我是超人", ch) == 0)
-//		{
-//			system("shutdown -a");
-//			break;
-//		}
+//	case 10://得100分的情况
+//	case 9:
+//		printf("A");
+//		break;
+//	case 8:
+//		printf("B");
+//		break;
+//	case 7:
+//		printf("C");
+//		break;
+//	case 6:
+//		printf("D");
+//		break;
+//	default:
+//		printf("E");
+//		break;
 //	}
 //
 //	return 0;
 //}
 
-
+//二、大小写字母转换
+//小写'a'的ASKII值比'A'大32
 //int main()
 //{
-//	//printf("%d", printf("%d", printf("%d", 43)));//打印43 返回2 打印2 返回1
-//	printf("%d", printf("%d", printf("%d", 654)));//65431
+//	char buf[30] = { 0 };
+//	scanf("%s", buf);
+//	int i = 0;
+//	while (buf[i] != '\0')
+//	{
+//		if (buf[i] >= 'a' && buf[i] <= 'z')
+//			buf[i] -= 32;
+//		else if (buf[i] >= 'A' && buf[i] <= 'Z')
+//			buf[i] += 32;
+//		i++;
+//	}
+//	printf("%s\n", buf);
 //	return 0;
 //}
 
-
-//二、递归
-//把输入的数从左到右一位一位的打出来
-
-//void print(int n)
-//{
-//	if (n > 9)//二位数及以上 123  12  1
-//	{
-//		print(n / 10);
-//	}
-//	printf("%d ", n % 10);
-//}
-//
-//int main()
-//{
-//	unsigned int n = 0;
-//	scanf("%d", &n);
-//	print(n);
-//	return 0;
-//}
-
-//三、模拟实现strlen 
-// 
-//1.用指针-指针的方式
-#include <assert.h>
-
-//int my_strlen(const char* p)
-//{
-//	assert(p != NULL);
-//	char* strat = p;
-//	while (*p != '\0')
-//	{
-//		p++;
-//	}
-//	return p - strat;//指针 - 指针 = 元素个数 要同一类型的指针
-//}
-// 
-//2.用变量的
-//int my_strlen(const char* p)
-//{
-//	int count = 0;
-//	while (*p != '\0')
-//	{
-//		p++;
-//		count++;
-//	}
-//	return count;
-//}
-
-//3.不用变量的 用递归的方法
-//int my_strlen(const char* p)
-//{
-//	assert(p);
-//	if (*p != '\0')
-//	{
-//		return 1 + my_strlen(p+1);
-//	}
-//	return 0;
-//}
-//
-//int main()
-//{
-//	char arr[] = "abcdef";//6
-//	int len = my_strlen(arr);
-//	/*char* open = arr;
-//	char* end = &arr[6];
-//	int len = end - open;*/
-//	printf("%d\n", len);
-//	return 0;
-//}
-
-//四、斐波那契数列
-//1 1 2 3 5 8 13 21 34 55 ... (后面的数 = 前面两数之和)
-//求第n个斐波那契数
-//1.用循环的方法
-//(更好一点)
+//三、求第n个斐波那契数
 //int Find(int n)
 //{
 //	int a = 1;
@@ -120,212 +68,270 @@
 //	return c;
 //}
 
-//2.用递归的方法
-//(用递归会重复计算很多，效率低)
-//int Find(int n)
+//斐波那契数列求和
+//int Sum(int n)
 //{
-//	if (n <= 2)
+//	int a = 1;
+//	int b = 1;
+//	int c = 1;
+//	int sum = a + b;//2 
+//	if (n == 1)
 //		return 1;
-//	else
-//		return Find(n - 1) + Find(n - 2);
-//}
-
-//int main()
-//{
-//	//TDD -- 测试驱动开发 ： 先写使用再实现
-//	int n = 0;
-//	scanf("%d", &n);
-//	int ret = Find(n);
-//	printf("%d\n", ret);
-//
-//	return 0;
-//}
-
-
-//五、交换两个变量 不用临时变量
-//(效率不高 可读性差 正常还是使用临时变量来交换)
-//int main()
-//{
-//	int a = 3;
-//	int b = 5;
-//	//加减法
-//	/*a = a + b;
-//	b = a - b;
-//	a = a - b;*/
-//	//异或的方法
-//	a = a ^ b;// a^b 相当于得到了一个密码 这个密码和b异或 得 a 反之即得b
-//	b = a ^ b;
-//	a = a ^ b;
-//	printf("%d %d\n", a, b);
-//	return 0;
-//}
-
-//六、求一个整数存储在内存中的二进制中1的个数
-
-//int main()
-//{
-//	int n = 0;
-//	scanf("%d", &n);
-//	int count = 0;
-//	int i = 0;
-//	for (i = 0; i < 32; i++)
+//	else if (n == 2)
+//		return 2;
+//	while (n > 2) //从第三个开始加 这样才能有求第n个斐波那契数的循环 每求一个就加上去
 //	{
-//		if (1 == ((n>>i)  & 1))
+//		a = b;
+//		b = c;
+//		c = a + b;
+//		sum += c;
+//		n--;
+//	}
+//	return sum;
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	printf("输入要求的n个斐波那契数之和:>");
+//	scanf("%d", &n);
+//	int sum = Sum(n);
+//	printf("%d\n", sum);
+//	return 0;
+//}
+
+//四、冒泡法
+//void Sort_Bubble(int arr[], int sz)
+//{
+//	int i, j, tmp;
+//	int flag = 1;
+//	for (i = 0; i < sz - 1; i++)//sz - 1 因为最后一次不用移动
+//	{
+//		flag = 1;//标志 若一趟循环下来 一次都没有交换 则说明本来就有序 不需要再循环了
+//		for (j = 0; j < sz - 1 - i; j++)
 //		{
-//			count++;
+//			if (arr[j] > arr[j + 1])
+//			{
+//				flag = 0;
+//				tmp = arr[j];
+//				arr[j] = arr[j + 1];
+//				arr[j + 1] = tmp;
+//			}
+//			
 //		}
+//		if (flag == 1)//有序 不需要再循环 直接跳出
+//			return;
 //	}
-//	printf("count = %d\n", count);
-//	return 0;
-//}
-
-//（最好）n & (n - 1)
-//例： 1101 & 1100   得 1100
-//     1100 & 1011   得 1000 一次少一个1 有几个1执行几次 最终得0
-//int count_bit_one(int n)
-//{
-//	int count = 0;
-//	int i = 0;
-//	while (n)
-//	{
-//		n = n & (n - 1);
-//		count++;
-//	}
-//	return count;
 //}
 //
 //int main()
 //{
-//	int a = 13;//1101  3个1
-//	scanf("%d", &a);
-//	printf("%d\n", count_bit_one(a));
-//	return 0;
-//}
-
-//七、sizeof()的注意情况
-//int main()
-//{
-//	int i = -1;
-//	if (i > sizeof(i))//sizeof() 运算时会先把旁边的数变无符号数类型
-//		printf(">");
-//	else
-//		printf("<");
-//	return 0;
-//}
-
-//八、求二进制中，两个数 不同二进制位的个数
-//思路：异或 相同为0 不同为1 然后再求1的个数
-//int get_diff_bit(int m, int n)
-//{
-//	int tmp = m ^ n;
-//	int count = 0;
+//	int arr[] = { 1,2,3,4,5,6,7,8,9 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
 //	int i = 0;
-//	while (tmp)
+//	Sort_Bubble(arr, sz);
+//	for (i = 0; i < sz; i++)
 //	{
-//		tmp = tmp & (tmp - 1);
-//		count++;
+//		printf("%d ", arr[i]);
 //	}
-//	/*for (i = 0; i < 32; i++)
+//	return 0;
+//}
+
+//五、编写函数将一句话中每个单词的首字母大写，再在主函数中测试该函数。
+// (提示：假设 a[0]是第一个单词的首字母，其它单词首字母的判断规则设为：
+// a[i]是空格，并且 a[i + 1]是小写英文字母，则 a[i + 1]就是单词首字母。
+// 例：输入 wish you a good mark in the exam.输出 Wish You A Good Mark In The Exam)。
+//void checkAa(char arr[])
+//{
+//	if (arr[0] >= 'a' && arr[0] <= 'z')
+//		arr[0] -= 32;
+//	int i = 1;
+//	while (arr[i] != '\0')
 //	{
-//		if (1 == ((tmp >> i) & 1))
+//		if ((arr[i - 1] == ' ') && (arr[i] >= 'a' && arr[i] <= 'z'))
 //		{
-//			count++;
+//			arr[i] -= 32;
 //		}
-//	}*/
-//	return count;
+//		i++;
+//	}
 //}
 //
 //int main()
 //{
-//	int m = 0;//1100 12
-//	int n = 0;//0011 3
-//	scanf("%d %d", &m, &n);
-//	int ret = get_diff_bit(m, n);
-//	printf("%d\n", ret);
+//	char arr[] = "wish you a good mark in the exam";
+//	checkAa(arr);//[注] 如果要输入的话 不能用scanf scanf是以空格为结束的 可以用gets()
+//	printf("%s\n", arr);
 //	return 0;
 //}
 
-//九、计算一个数的每位之和
-//输入一个数 调用DigitSum(1729) 返回1+7+2+9 和为19
-//1729 9+DS(172)
-//172 9+2+DS(17)
-//int DigitSum(int n)
+
+//六、输入 a, b, c，编程判断它们能否构成一个三角形
+//两边之和大于第三边 即: a+b>c && a+c>b && b+c>a
+//[注] 要注意三边的边长都是大于零的
+//int main()
 //{
-//	if (n > 9)
+//	float a, b, c;
+//	printf("请输入三边的长度:>");
+//	scanf("%f %f %f", &a, &b, &c);
+//	if (a > 0 && b > 0 && c > 0)
 //	{
-//		return n % 10 + DigitSum(n / 10);
+//		if (a + b > c && a + c > b && b + c > a)
+//		{
+//			printf("能组成三角形\n");
+//		}
+//		else
+//			printf("不能\n");
 //	}
-//	else
+//	return 0;
+//}
+
+//七、编程一个函数判断一个数是否是素数。再在主函数中测试这个函数
+#include <math.h>
+
+//int Check(int n)
+//{
+//	int i = 0;
+//	for (i = 2; i <= sqrt(n); i++)//sqrt() -- 开平方数学库函数
 //	{
-//		return n % 10;
+//		if (n % i == 0)
+//			return 0;//除得尽 不是素数
 //	}
+//	if (i > sqrt(n))
+//		return 1;//是素数
 //}
 //
 //int main()
 //{
 //	int n = 0;
+//	printf("请输入你想判断的数:>");
 //	scanf("%d", &n);
-//	int sum = DigitSum(n);
-//	printf("sum = %d\n", sum);
-//	return 0;
-//}
-
-
-//十、计算n的k次方
-//double Pow(int n, int k)
-//{
-//	if (k == 0)
-//		return 1;
-//	else if (k > 0)
-//		return n * Pow(n, k - 1);
-//	else //k < 0 时
-//		return (1.0 / Pow(n,-k));
-//}
-//
-////double Pow(int n, int k)
-////{
-////	if (k < 0)
-////		return (1.0 / Pow(n, -k));
-////	else if (k == 0)
-////		return 1;
-////	else
-////		return n * Pow(n, k - 1);
-////}
-//
-//
-//int main()
-//{
-//	int n = 0;
-//	int k = 0;
-//	scanf("%d %d", &n, &k);
-//	double ret = Pow(n, k);//因为有负数次方 会有分数 所以用double
-//	printf("%lf\n", ret);
-//	return 0;
-//}
-
-//十一、判断当前机器的字节序是什么
-//大端：低位放到高地址处，高位放到低地址处
-//小端：低位放到低地址处，高位放到高地址处
-//int check_sys()
-//{
-//	int n = 1;//00 00 00 01 大端：00 00 00 01 小端：01 00 00 00 
-//	char* tmp = (char*)&n;
-//	//返回1 为小端
-//	//返回0 为大端
-//	return *tmp; // 简洁为： return *((char*)&n);
-//	/*if (tmp == 1)
-//		return 1;
-//	else
-//		return 0;*/
-//}
-//
-//int main()
-//{
-//	int ret = check_sys();
+//	int ret = Check(n);
 //	if (ret == 1)
-//		printf("是小端存储");
+//		printf("是素数\n");
 //	else
-//		printf("是大端存储");
+//		printf("不是素数\n");
 //	return 0;
 //}
 
+//八、从键盘任意输入一年份,编程输出该年份每月的天数。
+//要求：数据按两行输出，每行分别显示6个月份的天数，且每行的数据之间以","隔开
+//判断闰年 闰年二月29天 平年28天
+//void PrintDay(int year)
+//{
+//	printf("一月:31 ,");
+//	if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0))
+//		printf("二月:29 ,");
+//	else
+//		printf("二月:28 ,");
+//	printf("三月:31 ,");
+//	printf("四月:30 ,");
+//	printf("五月:31 ,");
+//	printf("六月:30\n");
+//	printf("七月:31 ,");
+//	printf("八月:31 ,");
+//	printf("九月:30 ,");
+//	printf("十月:31 ,");
+//	printf("11月:30 ,");
+//	printf("12月:31 ,");
+//}
+//
+//int main()
+//{
+//	int year = 0;
+//	printf("请输入年份:>");
+//	scanf("%d", &year);
+//	PrintDay(year);
+//	return 0;
+//}
+
+//九、从键盘输入一个正整数n，编程计算并输出1~n之间所有素数之和。
+//要求:素数的判定用自定义函数int IsPrime (int n)完成。
+
+//int IsPrime(int i)
+//{
+//	int j = 0;
+//	for (j = 2; j <= sqrt(i); j++)
+//	{
+//		if (i % j == 0)
+//			return 0;//不是素数
+//	}
+//	if(j>sqrt(i))
+//		return 1;//是素数
+//}
+//
+//int main()
+//{
+//	int n = 0;
+//	printf("请输入一个正整数:>");
+//	scanf("%d", &n);
+//	int sum = 0;
+//	int i = 0;
+//	for (i = 2; i <= n; i++)//1不是素数 所以从2开始 2是素数
+//	{
+//		int ret = IsPrime(i);
+//		if (ret == 1)//返回1 则是素数
+//			sum += i;
+//	}
+//	printf("%d\n", sum);
+//	return 0;
+//}
+
+//十、从键盘输入20位学生的信息，包含学号、姓名以及1门课的成绩，编写程序实现下功能:
+//1）对20位学生的成绩按降序进行排序，并将排序后的学生信息写入到文件temp.txt文件中; （10分)
+//2）按学号完成学生信息的检索，如果找到，则输出学生的相关信息，否则输出"Don't findthe corresponding message!”。(10分)
+
+#include "student.h"
+
+void menu()
+{
+	printf("####################################\n");
+	printf("#####    1.add        2.sort    ####\n");
+	printf("#####    3.find       4.show    ####\n");
+	printf("#####    5.save       6.modify  ####\n");
+	printf("#####           0.exit          ####\n");
+	printf("####################################\n");
+}
+
+int main()
+{
+	StuTotal stu;//stu 就是学生信息存放库，里面有：data指针 和size ，capacity
+	InitStuTotal(&stu);
+	int input;
+	do
+	{
+		menu();
+		scanf("%d", &input);
+		switch (input)
+		{
+		case ADD:
+			AddStuTotal(&stu);
+			break;
+		case SORT:
+			SortStuTotal(&stu);
+			break;
+		case FIND:
+			SearchStuTotal(&stu);
+			break;
+		case SHOW:
+			ShowStuTotal(&stu);
+			break;
+		case SAVE:
+			SaveStuTotal(&stu);
+			break;
+		case MODIFY:
+			ModifyStuTotal(&stu);
+			break;
+		case EXIT:
+			printf("关闭程序\n");
+			SaveStuTotal(&stu);
+			//销毁 -- 释放动态开辟的内存
+			DestoryStuTotal(&stu);
+			break;
+		default:
+			printf("选择错误，请重新选择\n");
+			break;
+		}
+	} while (input);
+
+	return 0;
+}
