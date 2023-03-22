@@ -2,330 +2,271 @@
 
 #include <stdio.h>
 #include <string.h>
-//一、关机程序
+//刷题练习
+//1.忽略大小写，比较字符串大小，并从大到小输出
+//
 //int main()
 //{
-//	char ch[20] = { 0 };
-//	while (1)
+//	char arr1[10] = { 0 };
+//	char arr2[10] = { 0 };
+//	int i = 0;
+//	scanf("%s %s", arr1, arr2);
+//	while (arr1[i] != '\0')
 //	{
-//		system("shutdown -s -t 60");//60s后关机
-//		printf("请输入我是超人，否则电脑将会在1min中内关机\n");
-//		scanf("%s", ch);
-//		if (strcmp("我是超人", ch) == 0)
+//		if (arr1[i] >= 'A' && arr1[i] <= 'Z')
+//			arr1[i] += 32;
+//		i++;
+//	}
+//	while (arr2[i] != '\0')
+//	{
+//		if (arr2[i] >= 'A' && arr2[i] <= 'Z')
+//			arr2[i] += 32;
+//		i++;
+//	}
+//	i = 0;// -- 用完记得还为0
+//	/*if (strcmp(arr1, arr2) >= 0)
+//	{
+//		printf("%s %s", arr1, arr2);
+//	}
+//	else if (strcmp(arr1, arr2) < 0)
+//		printf("%s %s\n", arr2, arr1);*/
+//	//不用strcmp
+//	int len1 = strlen(arr1);
+//	int len2 = strlen(arr2);
+//	if (len1 > len2)
+//		printf("%s %s\n", arr1, arr2);
+//	else if (len1 < len2)
+//		printf("%s %s\n", arr2, arr1);
+//	while (arr1[i] != '\0' && arr2[i] != '\0' && (arr1[i] == arr2[i]))
+//	{
+//		i++;
+//	}
+//	if (arr1[i] > arr2[i])
+//		printf("%s %s\n", arr1, arr2);
+//	else if (arr1[i] < arr2[i])
+//		printf("%s %s\n", arr2, arr1);
+//	//else if (arr1[i] == arr2[i])//arr1/2 == ‘\0'的情况
+//	//	printf("%s %s\n", arr1, arr2);
+//	return 0;
+//}
+
+//2.将链表A分解成两个链表，A中序号为奇数的元素留在链表A中，序号为偶数的元素放入链表B中，
+//并分别用head1,head2头指针指向A、B链表
+
+//typedef struct LNode {
+//	int data;
+//	struct LNode* next;
+//}LNode, *ListNode;
+//
+//void DepartA_B(ListNode &La)
+//{
+//	LNode* Lb = (ListNode)malloc(sizeof(LNode));
+//	LNode* head1 = La;
+//	LNode* head2 = Lb;
+//	Lb->next = NULL;
+//	LNode* p = La->next;
+//	La->next = NULL;
+//	LNode* ra, *rb;
+//	ra = La;
+//	rb = Lb;
+//	int i = 0;
+//	while (p != NULL)
+//	{
+//		if (i % 2 == 1)//为奇数序号
 //		{
-//			system("shutdown -a");
-//			break;
+//			ra->next = p;
+//			ra = ra->next;
+//			p = p->next;
+//			i++;
+//		}
+//		else
+//		{
+//			rb->next = p;
+//			rb = rb->next;
+//			p = p->next;
+//			i++;
 //		}
 //	}
-//
-//	return 0;
+//	ra->next = NULL;
+//	rb->next = NULL;
 //}
 
+//3.汉诺塔问题: *************************************************************
+//三个柱子 A B C ，要把A上的盘子全都移动到C上
+//要求：每次移动的时候，保持大盘永远在下面，小盘在上面
+//思路：假设有n个盘子 需要先把A上的n-1个盘子通过C柱移到B柱上
+//      这时A柱就只剩一个大盘子，把这个盘子从A移到C上
+//      再把B柱上的n-1个盘子通过A柱移到C柱上
 
-//int main()
+//模拟移动
+//void move(char pos1, char pos2)
 //{
-//	//printf("%d", printf("%d", printf("%d", 43)));//打印43 返回2 打印2 返回1
-//	printf("%d", printf("%d", printf("%d", 654)));//65431
-//	return 0;
-//}
-
-
-//二、递归
-//把输入的数从左到右一位一位的打出来
-
-//void print(int n)
-//{
-//	if (n > 9)//二位数及以上 123  12  1
-//	{
-//		print(n / 10);
-//	}
-//	printf("%d ", n % 10);
+//	printf(" %c -> %c ", pos1, pos2);//从pos1移动到pos2
 //}
 //
-//int main()
+////n ---- 盘子的个数
+////pos1 -- 起始位置(A) , pos2 -- 中转位置(B) ， pos3 -- 目标位置(C)
+//void Hanoi(int n, char pos1, char pos2, char pos3)
 //{
-//	unsigned int n = 0;
-//	scanf("%d", &n);
-//	print(n);
-//	return 0;
-//}
-
-//三、模拟实现strlen 
-// 
-//1.用指针-指针的方式
-#include <assert.h>
-
-//int my_strlen(const char* p)
-//{
-//	assert(p != NULL);
-//	char* strat = p;
-//	while (*p != '\0')
-//	{
-//		p++;
-//	}
-//	return p - strat;//指针 - 指针 = 元素个数 要同一类型的指针
-//}
-// 
-//2.用变量的
-//int my_strlen(const char* p)
-//{
-//	int count = 0;
-//	while (*p != '\0')
-//	{
-//		p++;
-//		count++;
-//	}
-//	return count;
-//}
-
-//3.不用变量的 用递归的方法
-//int my_strlen(const char* p)
-//{
-//	assert(p);
-//	if (*p != '\0')
-//	{
-//		return 1 + my_strlen(p+1);
-//	}
-//	return 0;
-//}
-//
-//int main()
-//{
-//	char arr[] = "abcdef";//6
-//	int len = my_strlen(arr);
-//	/*char* open = arr;
-//	char* end = &arr[6];
-//	int len = end - open;*/
-//	printf("%d\n", len);
-//	return 0;
-//}
-
-//四、斐波那契数列
-//1 1 2 3 5 8 13 21 34 55 ... (后面的数 = 前面两数之和)
-//求第n个斐波那契数
-//1.用循环的方法
-//(更好一点)
-//int Find(int n)
-//{
-//	int a = 1;
-//	int b = 1;
-//	int c = 1;
-//	while (n > 2)
-//	{
-//		c = a + b;
-//		a = b;
-//		b = c;
-//		n--;
-//	}
-//	return c;
-//}
-
-//2.用递归的方法
-//(用递归会重复计算很多，效率低)
-//int Find(int n)
-//{
-//	if (n <= 2)
-//		return 1;
-//	else
-//		return Find(n - 1) + Find(n - 2);
-//}
-
-//int main()
-//{
-//	//TDD -- 测试驱动开发 ： 先写使用再实现
-//	int n = 0;
-//	scanf("%d", &n);
-//	int ret = Find(n);
-//	printf("%d\n", ret);
-//
-//	return 0;
-//}
-
-
-//五、交换两个变量 不用临时变量
-//(效率不高 可读性差 正常还是使用临时变量来交换)
-//int main()
-//{
-//	int a = 3;
-//	int b = 5;
-//	//加减法
-//	/*a = a + b;
-//	b = a - b;
-//	a = a - b;*/
-//	//异或的方法
-//	a = a ^ b;// a^b 相当于得到了一个密码 这个密码和b异或 得 a 反之即得b
-//	b = a ^ b;
-//	a = a ^ b;
-//	printf("%d %d\n", a, b);
-//	return 0;
-//}
-
-//六、求一个整数存储在内存中的二进制中1的个数
-
-//int main()
-//{
-//	int n = 0;
-//	scanf("%d", &n);
-//	int count = 0;
-//	int i = 0;
-//	for (i = 0; i < 32; i++)
-//	{
-//		if (1 == ((n>>i)  & 1))
-//		{
-//			count++;
-//		}
-//	}
-//	printf("count = %d\n", count);
-//	return 0;
-//}
-
-//（最好）n & (n - 1)
-//例： 1101 & 1100   得 1100
-//     1100 & 1011   得 1000 一次少一个1 有几个1执行几次 最终得0
-//int count_bit_one(int n)
-//{
-//	int count = 0;
-//	int i = 0;
-//	while (n)
-//	{
-//		n = n & (n - 1);
-//		count++;
-//	}
-//	return count;
-//}
-//
-//int main()
-//{
-//	int a = 13;//1101  3个1
-//	scanf("%d", &a);
-//	printf("%d\n", count_bit_one(a));
-//	return 0;
-//}
-
-//七、sizeof()的注意情况
-//int main()
-//{
-//	int i = -1;
-//	if (i > sizeof(i))//sizeof() 运算时会先把旁边的数变无符号数类型
-//		printf(">");
-//	else
-//		printf("<");
-//	return 0;
-//}
-
-//八、求二进制中，两个数 不同二进制位的个数
-//思路：异或 相同为0 不同为1 然后再求1的个数
-//int get_diff_bit(int m, int n)
-//{
-//	int tmp = m ^ n;
-//	int count = 0;
-//	int i = 0;
-//	while (tmp)
-//	{
-//		tmp = tmp & (tmp - 1);
-//		count++;
-//	}
-//	/*for (i = 0; i < 32; i++)
-//	{
-//		if (1 == ((tmp >> i) & 1))
-//		{
-//			count++;
-//		}
-//	}*/
-//	return count;
-//}
-//
-//int main()
-//{
-//	int m = 0;//1100 12
-//	int n = 0;//0011 3
-//	scanf("%d %d", &m, &n);
-//	int ret = get_diff_bit(m, n);
-//	printf("%d\n", ret);
-//	return 0;
-//}
-
-//九、计算一个数的每位之和
-//输入一个数 调用DigitSum(1729) 返回1+7+2+9 和为19
-//1729 9+DS(172)
-//172 9+2+DS(17)
-//int DigitSum(int n)
-//{
-//	if (n > 9)
-//	{
-//		return n % 10 + DigitSum(n / 10);
-//	}
+//	if (n == 1)
+//		move(pos1, pos3);
 //	else
 //	{
-//		return n % 10;
+//		Hanoi(n - 1, pos1, pos3, pos2);//需要先把A上的n-1个盘子通过C柱移到B柱上
+//		move(pos1, pos3);//这时A柱就只剩一个大盘子，把这个盘子从A移到C上
+//		Hanoi(n - 1, pos2, pos1, pos3);//再把B柱上的n-1个盘子通过A柱移到C柱上
 //	}
 //}
 //
 //int main()
 //{
-//	int n = 0;
-//	scanf("%d", &n);
-//	int sum = DigitSum(n);
-//	printf("sum = %d\n", sum);
+//	Hanoi(1, 'A', 'B', 'C');
+//	printf("\n");
+//	Hanoi(2, 'A', 'B', 'C');
+//	printf("\n");
+//	Hanoi(3, 'A', 'B', 'C');
+//	printf("\n");
 //	return 0;
 //}
 
-
-//十、计算n的k次方
-//double Pow(int n, int k)
-//{
-//	if (k == 0)
-//		return 1;
-//	else if (k > 0)
-//		return n * Pow(n, k - 1);
-//	else //k < 0 时
-//		return (1.0 / Pow(n,-k));
-//}
-//
-////double Pow(int n, int k)
-////{
-////	if (k < 0)
-////		return (1.0 / Pow(n, -k));
-////	else if (k == 0)
-////		return 1;
-////	else
-////		return n * Pow(n, k - 1);
-////}
-//
+//4.字符串交换问题：将字符串以A开头的和以K结尾的单词进行交换
+//例：Before: I AM A OK BOY VERY OK
+//    After : I OK OK A BOY VERY AM
 //
 //int main()
 //{
-//	int n = 0;
+//	char* s[50] = { 0 };
+//	char arr[50] = "I AM A OK BOY VERY OK";
+//	char* delim = " ";//strtok使用
 //	int k = 0;
-//	scanf("%d %d", &n, &k);
-//	double ret = Pow(n, k);//因为有负数次方 会有分数 所以用double
-//	printf("%lf\n", ret);
+//	int i, j;
+//	int len = 0;
+//	printf("Befter:");
+//	char* p = strtok(arr, delim);//strtok --- 分开取出字符串 --- <string,h>
+//	printf("%s ", p);
+//	s[k++] = p;
+//	while (p = strtok(NULL, delim))
+//	{
+//		printf("%s ", p);
+//		s[k++] = p;
+//	}
+//	i = 0;
+//	j = k - 1;
+//	while (i < j)
+//	{
+//		len = strlen(s[j]);
+//		if (s[i][0] != 'A')
+//			i++;
+//		if (s[j][len - 1] != 'K')
+//			j--;
+//		if (s[i][0] == 'A' && s[j][len - 1] == 'K')
+//		{
+//			p = s[i];
+//			s[i] = s[j];
+//			s[j] = p;
+//			i++;
+//			j--;
+//		}
+//	}
+//	printf("\nAfter:");
+//	for (i = 0; i < k; i++)
+//	{
+//		printf("%s ", s[i]);
+//	}
+//	printf("\n");
 //	return 0;
 //}
 
-//十一、判断当前机器的字节序是什么
-//大端：低位放到高地址处，高位放到低地址处
-//小端：低位放到低地址处，高位放到高地址处
-//int check_sys()
+//5.“三天打鱼两天晒网”。某人从1990年1月1日起开始“三天打鱼两天晒网”
+//问：这个人在以后的某一天中是在打鱼还是在晒网
+//日期结构体
+//typedef struct Date
 //{
-//	int n = 1;//00 00 00 01 大端：00 00 00 01 小端：01 00 00 00 
-//	char* tmp = (char*)&n;
-//	//返回1 为小端
-//	//返回0 为大端
-//	return *tmp; // 简洁为： return *((char*)&n);
-//	/*if (tmp == 1)
+//	int year;
+//	int month;
+//	int day;
+//}Date;
+//
+////判断是不是闰年 是则返回1 不是则返回0
+//int IsLeapYear(int year)
+//{
+//	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+//}
+//
+////获得某年某月的最大天数
+//int GetMaxDay(int year, int month)
+//{
+//	switch (month)
+//	{
+//	case 1:
+//	case 3:
+//	case 5:
+//	case 7:
+//	case 8:
+//	case 10:
+//	case 12:
+//		return 31;
+//	case 4:
+//	case 6:
+//	case 9:
+//	case 11:
+//		return 30;
+//	case 2:
+//		return IsLeapYear(year) ? 29 : 28;
+//	default:
+//		return -1;
+//	}
+//}
+//
+////两个日期是否相等
+//int IsEqual(Date date1, Date date2)
+//{
+//	if (date1.year == date2.year && date1.month == date2.month && date1.day == date2.day)
 //		return 1;
-//	else
-//		return 0;*/
+//	return 0;
+//}
+//
+////计算日期之间的天数差(一天一天加，直到相等，算出加的天数)
+//int GetBetwDays(Date date1, Date date2)
+//{
+//	int count = 0;
+//	while (IsEqual(date1, date2) == 0)
+//	{
+//		if (date1.day != GetMaxDay(date1.year, date1.month))//这个月天数没满 加天数
+//		{
+//			date1.day++;
+//		}
+//		else if (date1.month != 12)//天数满了 月没满 到下一个月 也相当于加一天
+//		{
+//			date1.month++;
+//			date1.day = 1;
+//		}
+//		else //天数也满了 月也满了 到下一年 也相当于加一天
+//		{
+//			date1.year++;
+//			date1.month = 1;
+//			date1.day = 1;
+//		}
+//		count++;
+//	}
+//	return count;//返回总共加的天数
 //}
 //
 //int main()
 //{
-//	int ret = check_sys();
-//	if (ret == 1)
-//		printf("是小端存储");
+//	Date date1, date2;
+//	int count = 0;
+//	date1.year = 1990;
+//	date1.month = 1;
+//	date1.day = 1;
+//	printf("请输入要查询的日期:>");
+//	scanf("%d %d %d", &date2.year, &date2.month, &date2.day);
+//	count = GetBetwDays(date1, date2);
+//	printf("日期相差%d天\n", count);
+//	if (count % 5 == 0 || count % 5 == 4)//后两天
+//		printf("晒网!\n");
 //	else
-//		printf("是大端存储");
+//		printf("打鱼!\n");
 //	return 0;
 //}
 
